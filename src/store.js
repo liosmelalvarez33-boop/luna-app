@@ -381,7 +381,12 @@ export const THEMES = [
   { id: 'oceano', emoji: '🌊', nombre: 'Océano' },
   { id: 'bosque', emoji: '🌿', nombre: 'Bosque' },
   { id: 'atardecer', emoji: '🌅', nombre: 'Atardecer' },
-  { id: 'medianoche', emoji: '🌌', nombre: 'Medianoche' }
+  { id: 'medianoche', emoji: '🌌', nombre: 'Medianoche' },
+  // ---- 4 piel nuevas (colección "Diseños Luna") ----
+  { id: 'serena', emoji: '🌙', nombre: 'Noche Serena' },
+  { id: 'petalos', emoji: '🌸', nombre: 'Pétalos al Alba' },
+  { id: 'aurora', emoji: '✨', nombre: 'Aurora' },
+  { id: 'botanica', emoji: '🪴', nombre: 'Botánica' }
 ]
 
 /* ===== Consejos ===== */

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { loadData, getState, PETS } from './store'
 import Header from './components/Header'
+import AmbientOverlay from './components/AmbientOverlay'
 import Calendar from './components/Calendar'
 import Prediction from './components/Prediction'
 import MyDay from './components/MyDay'
@@ -125,6 +126,9 @@ function App() {
           ))}
         </div>
       </div>
+
+      {/* Ambiente visual según el tema (pétalos, destellos, hojas...) */}
+      <AmbientOverlay theme={state.settings.theme} />
     </div>
   )
 }
