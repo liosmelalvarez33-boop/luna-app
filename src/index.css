@@ -1840,3 +1840,123 @@ body[data-theme='botanica'] {
 :root[data-theme='botanica'] .btn-primary {
   border-radius: 0.6rem;
 }
+
+/* ==================================================================== */
+/* =========  AMBIENTES INDIVIDUALES PARA TODAS LAS PIELES  =========== */
+/* ==================================================================== */
+
+/* ✨ Luna Morada — chispas ascendentes morado-doradas */
+.ambient-chispa {
+  color: #ffd98a;
+  text-shadow: 0 0 12px rgba(199, 125, 255, 0.85), 0 0 4px rgba(255, 217, 138, 0.9);
+}
+.ambient-chispa--asciende { animation-name: ascender-key; animation-timing-function: ease-in; }
+
+@keyframes ascender-key {
+  0% { opacity: 0; transform: translateY(104vh) translateX(0); }
+  10% { opacity: 0.95; }
+  35% { transform: translateY(68vh) translateX(2.2vw); }
+  60% { transform: translateY(38vh) translateX(-1.8vw); }
+  85% { opacity: 0.6; }
+  100% { opacity: 0; transform: translateY(-12vh) translateX(1vw); }
+}
+
+/* 💗 Rosa Crema — corazones ascendiendo con vaivén suave */
+.ambient-corazon {
+  color: #ffb9d0;
+  filter: drop-shadow(0 0 6px rgba(240, 117, 159, 0.55));
+}
+.ambient-corazon--asciende-suave { animation-name: flotar-key; animation-timing-function: ease-in-out; }
+
+@keyframes flotar-key {
+  0% { opacity: 0; transform: translateY(104vh) translateX(0) rotate(-8deg); }
+  12% { opacity: 0.9; }
+  30% { transform: translateY(72vh) translateX(3vw) rotate(6deg); }
+  55% { transform: translateY(46vh) translateX(-2.6vw) rotate(-5deg); }
+  80% { transform: translateY(18vh) translateX(2.2vw) rotate(4deg); }
+  100% { opacity: 0; transform: translateY(-10vh) translateX(-1vw) rotate(-3deg); }
+}
+
+/* 🫧 Océano — burbujas ascendiendo serpenteando */
+.ambient-burbuja {
+  color: #9be6ef;
+  opacity: 0.85;
+  filter: drop-shadow(0 0 5px rgba(77, 208, 225, 0.6));
+}
+.ambient-burbuja--asciende { animation-name: burbuja-key; animation-timing-function: ease-in-out; }
+
+@keyframes burbuja-key {
+  0% { opacity: 0; transform: translateY(104vh) translateX(0) scale(0.85); }
+  8% { opacity: 0.9; }
+  22% { transform: translateY(80vh) translateX(1.6vw) scale(1); }
+  45% { transform: translateY(54vh) translateX(-2.2vw) scale(0.95); }
+  68% { transform: translateY(30vh) translateX(2vw) scale(1.05); }
+  88% { opacity: 0.5; }
+  100% { opacity: 0; transform: translateY(-6vh) translateX(-1.4vw) scale(0.9); }
+}
+
+/* 🍂 Bosque — hojas de otoño zigzagueando */
+.ambient-otono {
+  color: #e8a04a;
+  filter: drop-shadow(0 2px 4px rgba(80, 40, 10, 0.4));
+}
+.ambient-otono--cae-zigzag { animation-name: otono-key; animation-timing-function: ease-in-out; }
+
+@keyframes otono-key {
+  0% { opacity: 0; transform: translateY(-6vh) translateX(0) rotate(0deg); }
+  8% { opacity: 0.95; }
+  28% { transform: translateY(24vh) translateX(-3.2vw) rotate(-48deg); }
+  52% { transform: translateY(52vh) translateX(3vw) rotate(30deg); }
+  76% { transform: translateY(80vh) translateX(-2.4vw) rotate(-16deg); }
+  100% { opacity: 0.7; transform: translateY(106vh) translateX(1.4vw) rotate(10deg); }
+}
+
+/* ☁️ Atardecer — nubes cruzando el cielo a la deriva */
+.ambient-nube {
+  color: #ffd9a8;
+  opacity: 0.5;
+  filter: blur(0.5px) drop-shadow(0 4px 10px rgba(255, 126, 95, 0.35));
+  white-space: nowrap;
+}
+.ambient-nube--deriva-x { animation-name: nube-key; animation-timing-function: linear; }
+
+@keyframes nube-key {
+  0% { transform: translateX(-22vw); }
+  100% { transform: translateX(114vw); }
+}
+
+/* Sol de atardecer (fijo, respira dorado-naranja) */
+.ambient-sol {
+  display: none;
+  position: absolute;
+  top: 9%;
+  right: 16%;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 38%, #ffe3b0, #ff9d5c 58%, #f2683c);
+  box-shadow: 0 0 36px 12px rgba(255, 157, 92, 0.4);
+}
+:root[data-theme='atardecer'] .ambient-sol { display: block; animation: sol-respira 6s ease-in-out infinite; }
+@keyframes sol-respira {
+  0%, 100% { box-shadow: 0 0 26px 8px rgba(255, 157, 92, 0.35); }
+  50% { box-shadow: 0 0 48px 16px rgba(255, 157, 92, 0.5); }
+}
+
+/* ✦ Medianoche — estrellas fugaces ocasionales */
+.ambient-cometa {
+  color: #fff;
+  text-shadow:
+    0 0 10px rgba(255, 255, 255, 0.95),
+    -16px 9px 14px rgba(159, 168, 255, 0.75),
+    -32px 18px 18px rgba(159, 168, 255, 0.35);
+  opacity: 0;
+}
+.ambient-cometa--cometa { animation-name: cometa-key; animation-timing-function: linear; }
+
+@keyframes cometa-key {
+  0% { opacity: 0; transform: translate(0, 0) rotate(140deg) scale(1); }
+  2% { opacity: 1; }
+  9% { opacity: 0; transform: translate(-44vw, 34vh) rotate(140deg) scale(0.8); }
+  100% { opacity: 0; transform: translate(-44vw, 34vh); }
+}
