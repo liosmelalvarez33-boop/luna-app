@@ -1528,7 +1528,7 @@ body[data-theme='medianoche'] { background: linear-gradient(135deg, #0a0e27, #13
 :root[data-theme='rosa'] .card-title,
 :root[data-theme='rosa'] .text-accent { color: var(--accent-deep) !important; }
 :root[data-theme='rosa'] .header-title {
-  background: linear-gradient(135deg, #e668a3, #4a1d3f);
+  background: linear-gradient(135deg, #e668a3, #b06fc9);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -1655,41 +1655,43 @@ body[data-theme='serena'] {
 }
 
 /* =================================================================== */
-/* 🌸 PÉTALOS AL ALBA — «Amanecer suave»                               */
-/* =================================================================== */
+/* 🌸 PÉTALOS AL ALBA — «Amanecer suave» (durazno + oro, distinto de Rosa Crema) */
 :root[data-theme='petalos'] {
-  --bg-primary: #fff7f4;
-  --bg-secondary: #ffeef0;
+  --bg-primary: #fff8f1;
+  --bg-secondary: #ffeadd;
   --bg-card: #ffffff;
-  --accent: #f0759f;
-  --accent-soft: #ffb9d0;
-  --accent-deep: #d95886;
-  --text-primary: #4c2541;
-  --text-secondary: #9c6b85;
-  --text-muted: #c09aae;
+  --accent: #f2687b;
+  --accent-soft: #ffb5a8;
+  --accent-deep: #d45464;
+  --text-primary: #4d2b33;
+  --text-secondary: #9c6f6a;
+  --text-muted: #c4a09b;
   --danger: #e05555;
-  --success: #6fbf8f;
-  --warning: #f2a44a;
+  --success: #7bb98a;
+  --warning: #f5a94a;
   --font-display: 'Comfortaa', 'Segoe UI', sans-serif;
 }
 :root[data-theme='petalos'] body,
 body[data-theme='petalos'] {
-  background: linear-gradient(165deg, #fff2ec 0%, #ffe6ef 45%, #fff5f0 100%);
+  background:
+    radial-gradient(70% 40% at 50% 0%, rgba(255, 200, 120, 0.35), transparent 62%),
+    radial-gradient(50% 35% at 85% 12%, rgba(255, 145, 120, 0.18), transparent 65%),
+    linear-gradient(168deg, #fff3e2 0%, #ffe4da 40%, #fff6ef 78%, #fff9f3 100%);
 }
 :root[data-theme='petalos'] body::before {
   background:
-    radial-gradient(2px 2px at 25% 35%, rgba(240, 117, 159, 0.25), transparent),
-    radial-gradient(2px 2px at 70% 60%, rgba(242, 164, 74, 0.20), transparent),
-    radial-gradient(2px 2px at 50% 85%, rgba(111, 191, 143, 0.18), transparent);
+    radial-gradient(2px 2px at 25% 35%, rgba(242, 104, 123, 0.28), transparent),
+    radial-gradient(2px 2px at 70% 30%, rgba(245, 169, 74, 0.28), transparent),
+    radial-gradient(2px 2px at 45% 85%, rgba(123, 185, 138, 0.18), transparent);
   animation: none;
 }
 :root[data-theme='petalos'] .header,
-:root[data-theme='petalos'] .bottom-nav { background: rgba(255, 247, 244, 0.9); }
+:root[data-theme='petalos'] .bottom-nav { background: transparent !important; }
 :root[data-theme='petalos'] .card {
-  background: #fffdfc;
-  border: 1px solid rgba(240, 117, 159, 0.14);
+  background: linear-gradient(150deg, #fffdf9, #fff6ef);
+  border: 1px solid rgba(242, 104, 123, 0.15);
   border-radius: 1.5rem;
-  box-shadow: 0 6px 20px rgba(217, 88, 134, 0.10);
+  box-shadow: 0 6px 20px rgba(212, 84, 100, 0.10);
 }
 :root[data-theme='petalos'] .header-title,
 :root[data-theme='petalos'] .section-title,
@@ -1699,14 +1701,15 @@ body[data-theme='petalos'] {
   font-weight: 700;
 }
 :root[data-theme='petalos'] .header-title {
-  background: linear-gradient(135deg, #f0759f, #f2a44a);
+  background: linear-gradient(135deg, #f2687b, #f5a94a);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 :root[data-theme='petalos'] .chip.chip-active,
 :root[data-theme='petalos'] .pill-toggle.pill-active {
-  background: linear-gradient(135deg, rgba(240, 117, 159, 0.25), rgba(242, 164, 74, 0.14));
+  background: linear-gradient(135deg, rgba(242, 104, 123, 0.26), rgba(245, 169, 74, 0.16));
+  border-color: var(--accent);
 }
 
 /* =================================================================== */
@@ -1959,4 +1962,180 @@ body[data-theme='botanica'] {
   2% { opacity: 1; }
   9% { opacity: 0; transform: translate(-44vw, 34vh) rotate(140deg) scale(0.8); }
   100% { opacity: 0; transform: translate(-44vw, 34vh); }
+}
+
+/* ==================================================================== */
+/* ===================   PULIDO GLOBAL «V3»   ========================= */
+/* ==================================================================== */
+
+/* ---- Profundidad de los ambientes (paralaje) ---- */
+.ambient-d-far { opacity: 0.5; filter: blur(1.1px); }
+.ambient-d-mid { opacity: 0.78; filter: blur(0.4px); }
+.ambient-d-near { opacity: 1; }
+
+/* ---- Viñeta suave para dar profundidad al fondo ---- */
+.app-container::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(135% 105% at 50% 42%, transparent 58%, rgba(8, 4, 22, 0.22) 100%);
+}
+
+/* ---- Menú inferior flotante tipo "cápsula" ---- */
+.bottom-nav {
+  background: transparent !important;
+  border-top: none !important;
+  box-shadow: none !important;
+  padding: 0 0.55rem;
+  padding-bottom: max(0.55rem, env(safe-area-inset-bottom));
+}
+.bottom-nav-inner {
+  max-width: 440px;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(26px) saturate(1.6);
+  -webkit-backdrop-filter: blur(26px) saturate(1.6);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 1.35rem;
+  box-shadow: 0 10px 34px -8px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  padding: 0.4rem 0.35rem;
+}
+.bottom-nav { border-bottom: none; }
+.bottom-nav-item {
+  border-radius: 1rem;
+  padding: 0.45rem 0.7rem;
+  font-size: 0.63rem;
+  letter-spacing: 0.01em;
+}
+.bottom-nav-item::before { display: none; }
+.bottom-nav-item:hover { background: rgba(255, 255, 255, 0.08); color: var(--accent-soft); }
+.bottom-nav-item.bottom-nav-item-active {
+  background: linear-gradient(135deg, rgba(255,255,255,0.16), rgba(255,255,255,0.06)), linear-gradient(135deg, var(--accent-deep), var(--accent));
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 14px -2px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255,255,255,0.25);
+  transform: translateY(-3px);
+}
+:root[data-theme='rosa'] .bottom-nav-item.bottom-nav-item-active,
+:root[data-theme='petalos'] .bottom-nav-item.bottom-nav-item-active,
+:root[data-theme='botanica'] .bottom-nav-item.bottom-nav-item-active {
+  color: #fffdf8;
+}
+.bottom-nav-item.bottom-nav-item-active span:first-child {
+  animation: nav-bump 0.45s cubic-bezier(0.2, 1.4, 0.4, 1);
+}
+@keyframes nav-bump {
+  0% { transform: scale(0.75); }
+  55% { transform: scale(1.28) rotate(-6deg); }
+  100% { transform: scale(1) rotate(0); }
+}
+
+/* ---- Header de vidrio elegante ---- */
+.header {
+  background: transparent !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow: none;
+}
+.header-inner { backdrop-filter: blur(24px) saturate(1.5); -webkit-backdrop-filter: blur(24px) saturate(1.5); border-radius: 0 0 1.4rem 1.4rem; }
+.header-logo {
+  background: linear-gradient(145deg, rgba(255,255,255,0.14), rgba(255,255,255,0.05));
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 14px -4px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255,255,255,0.18);
+}
+
+/* ---- Botones con sheen y presión ---- */
+.btn-primary {
+  border-radius: 1rem;
+  font-size: 0.95rem;
+  box-shadow: 0 6px 18px -6px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.28);
+}
+.btn-primary:active { transform: scale(0.965); }
+.btn-icon {
+  border-radius: 0.85rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.14);
+}
+.btn-icon:active { transform: scale(0.92); }
+
+/* ---- Tarjetas con doble sombra suave ---- */
+.card {
+  border-radius: 1.4rem;
+  box-shadow:
+    0 2px 6px -2px rgba(0, 0, 0, 0.18),
+    0 14px 40px -12px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* ---- Chips más táctiles ---- */
+.chip { border-radius: 1rem; }
+.chip:active { transform: scale(0.94); }
+.chip.chip-active {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px -6px rgba(0, 0, 0, 0.4), 0 0 0 3px rgba(255, 255, 255, 0.06);
+}
+
+/* ---- Inputs con anillo de foco ---- */
+.input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(199, 125, 255, 0.22);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+/* ---- Sliders con aro luminoso ---- */
+.slider::-webkit-slider-thumb {
+  box-shadow:
+    0 0 0 5px rgba(199, 125, 255, 0.18),
+    0 4px 10px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255,255,255,0.4);
+  border-width: 2px;
+  width: 24px;
+  height: 24px;
+}
+.slider:active::-webkit-slider-thumb {
+  box-shadow:
+    0 0 0 8px rgba(199, 125, 255, 0.26),
+    0 4px 12px rgba(0, 0, 0, 0.45);
+}
+
+/* ---- Tarjeta de bienvenida con aro degradado ---- */
+.welcome-card {
+  background: linear-gradient(135deg, rgba(255,255,255,0.10), rgba(255,255,255,0.04));
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255,255,255,0.14);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+.welcome-sticker { animation: sticker-float 3.4s ease-in-out infinite; box-shadow: 0 4px 12px -4px rgba(0,0,0,.4); }
+
+/* ---- Transición de vistas más viva (rebote sutil) ---- */
+.view-switch { animation-duration: 0.42s; animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+@keyframes view-in {
+  from { opacity: 0; transform: translateY(18px) scale(0.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ---- Sello de guardado con pop ---- */
+.save-sticker { animation: sticker-pop 0.55s cubic-bezier(0.2, 1.5, 0.4, 1); }
+@keyframes sticker-pop {
+  0% { transform: scale(0.3) rotate(-14deg); opacity: 0; }
+  60% { transform: scale(1.18) rotate(4deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0); opacity: 1; }
+}
+
+/* ---- Accesibilidad: respeta "reducir movimiento" ---- */
+@media (prefers-reduced-motion: reduce) {
+  .ambient > span,
+  .ambient-moon,
+  .ambient-sol {
+    animation: none !important;
+    opacity: 0.4;
+  }
+  body::before,
+  body::after {
+    animation: none !important;
+  }
+  .bottom-nav-item.bottom-nav-item-active span:first-child { animation: none; }
 }
