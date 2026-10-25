@@ -5,44 +5,52 @@ const STORE_KEY = 'luna-period-data'
 const defaultSettings = {
   cycleLength: 28,
   periodLength: 5,
-  theme: 'dark',
+  theme: 'luna',
+  pet: '🐱',
   notifications: true,
   lastPeriodStart: null,
-  name: ''
+  name: '',
+  email: ''
 }
 
 let listeners = []
 let state = {
   cycles: [],
   symptoms: [],
+  dailyLogs: [],      // {id, date, mood, skin, hair, exercise, sleepHours, water, sexual, tags[], notes, intensity, symptoms[]}
+  sexual: { metodo: '', notas: [] },  // metodo anticonceptivo activo
+  profile: { peso: null, estatura: null }, // kg, cm
+  basal: [],          // {id, date, temp}
+  mamaria: [],        // {id, date, nota}
+  ovulTest: [],       // {id, date, resultado: 'positivo'|'negativo'}
+  tags: [],           // {id, emoji, label, color}
   settings: defaultSettings
 }
 
-// Configurar localforage
 localforage.config({
   name: 'luna',
   storeName: 'period-tracker'
 })
 
-// Cargar datos al iniciar
 export async function loadData() {
   try {
     const data = await localforage.getItem(STORE_KEY)
     if (data) {
-      state = { ...state, ...data }
-      // Asegurar que settings tiene todos los defaults
-      if (data.settings) {
-        state.settings = { ...defaultSettings, ...data.settings }
+      state = {
+        ...state,
+        ...data,
+        settings: { ...defaultSettings, ...(data.settings || {}) },
+        profile: { ...state.profile, ...(data.profile || {}) },
+        sexual: { ...state.sexual, ...(data.sexual || {}) }
       }
     }
   } catch (e) {
     console.warn('No se pudieron cargar los datos', e)
   }
   notify()
-  return state
+  return getState()
 }
 
-// Guardar datos
 async function save() {
   try {
     await localforage.setItem(STORE_KEY, state)
@@ -51,7 +59,6 @@ async function save() {
   }
 }
 
-// Suscribirse a cambios
 export function subscribe(fn) {
   listeners.push(fn)
   return () => {
@@ -63,7 +70,14 @@ function notify() {
   listeners.forEach(fn => fn(getState()))
 }
 
-// Actions
+/* ===== Superficial helpers ===== */
+export const todayStr = () => formatDateStr(new Date())
+export function formatDateStr(d) {
+  const dt = d instanceof Date ? d : new Date(d)
+  return `${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(2, '0')}-${String(dt.getDate()).padStart(2, '0')}`
+}
+
+/* ===== Actions ===== */
 export function setLastPeriodStart(dateStr) {
   state.settings = { ...state.settings, lastPeriodStart: dateStr }
   save(); notify()
@@ -75,7 +89,14 @@ export function addCycle(cycle) {
 }
 
 export function addSymptom(symptom) {
-  state.symptoms.push({ ...symptom, id: Date.now() })
+  const today = todayStr()
+  const existing = state.symptoms.filter(s => s.date === today)
+  const entry = { ...symptom, id: Date.now(), date: today }
+  if (existing.length > 0) {
+    state.symptoms = state.symptoms.map(s => s.date === today ? entry : s)
+  } else {
+    state.symptoms.push(entry)
+  }
   save(); notify()
 }
 
@@ -86,14 +107,108 @@ export function removeSymptom(id) {
 
 export function setSettings(newSettings) {
   state.settings = { ...state.settings, ...newSettings }
+  // Aplicar tema inyectado
+  if (newSettings.theme) {
+    document.documentElement.setAttribute('data-theme', newSettings.theme)
+  }
   save(); notify()
+}
+
+/* Perfil */
+export function setProfile(peso, estatura) {
+  state.profile = {
+    peso: peso !== undefined ? peso : state.profile.peso,
+    estatura: estatura !== undefined ? estatura : state.profile.estatura
+  }
+  save(); notify()
+}
+
+/* Registro diario (Mi día) */
+export function addDailyLog(entry) {
+  const date = entry.date || todayStr()
+  const existing = state.dailyLogs.find(d => d.date === date)
+  if (existing) {
+    state.dailyLogs = state.dailyLogs.map(d => d.date === date ? { ...d, ...entry, date, id: d.id } : d)
+  } else {
+    state.dailyLogs.push({ ...entry, date, id: Date.now() })
+  }
+  // Sincronizar sexual
+  if (entry.sexual !== undefined) {
+    state.sexual.notas = state.sexual.notas.filter(n => n.date !== date)
+    if (entry.sexual) state.sexual.notas.push({ date })
+  }
+  save(); notify()
+}
+
+export function setSexualMetodo(metodo) {
+  state.sexual.metodo = metodo
+  save(); notify()
+}
+
+/* Temperatura basal */
+export function addBasal(temp, date) {
+  const d = date || todayStr()
+  const existing = state.basal.find(b => b.date === d)
+  if (existing) {
+    state.basal = state.basal.map(b => b.date === d ? { ...b, temp } : b)
+  } else {
+    state.basal.push({ id: Date.now(), date: d, temp })
+  }
+  save(); notify()
+}
+
+/* Autoexamen de mama */
+export function addMamaria(nota) {
+  state.mamaria.push({ id: Date.now(), date: todayStr(), nota: nota || '' })
+  save(); notify()
+}
+
+/* Test de ovulación */
+export function addOvulTest(resultado, date) {
+  state.ovulTest.push({ id: Date.now(), date: date || todayStr(), resultado })
+  save(); notify()
+}
+
+/* Etiquetas */
+export function addTag(tag) {
+  state.tags.push({ ...tag, id: Date.now() })
+  save(); notify()
+}
+
+export function removeTag(id) {
+  state.tags = state.tags.filter(t => t.id !== id)
+  save(); notify()
+}
+
+/* Cuenta / respaldo */
+export function exportBackup() {
+  return JSON.stringify(state)
+}
+
+export function importBackup(json) {
+  try {
+    const parsed = JSON.parse(json)
+    state = {
+      ...state,
+      ...parsed,
+      settings: { ...defaultSettings, ...(parsed.settings || {}) },
+      profile: { ...state.profile, ...(parsed.profile || {}) },
+      sexual: { ...state.sexual, ...(parsed.sexual || {}) }
+    }
+    if (state.settings.theme) document.documentElement.setAttribute('data-theme', state.settings.theme)
+    save(); notify()
+    return true
+  } catch (e) {
+    console.warn('Backup inválido', e)
+    return false
+  }
 }
 
 export function getState() {
   return JSON.parse(JSON.stringify(state))
 }
 
-// Calcular siguiente período
+/* ===== Predicción ===== */
 export function predictNextPeriod() {
   const { cycleLength, periodLength, lastPeriodStart } = state.settings
   if (!lastPeriodStart) return null
@@ -112,16 +227,9 @@ export function predictNextPeriod() {
   const end = new Date(nextStart)
   end.setDate(end.getDate() + periodLength - 1)
 
-  return {
-    nextStart,
-    fertileStart,
-    fertileEnd,
-    ovulation,
-    end
-  }
+  return { nextStart, fertileStart, fertileEnd, ovulation, end }
 }
 
-// Obtener día del ciclo para una fecha
 export function getDayInfo(dateStr) {
   const { lastPeriodStart, cycleLength, periodLength } = state.settings
   if (!lastPeriodStart) return { phase: 'none', day: 0, label: '' }
@@ -134,14 +242,12 @@ export function getDayInfo(dateStr) {
 
   const day = (diff % cycleLength) + 1
 
-  // Período actual
   if (day <= periodLength) {
     return { phase: 'period', day, label: 'Período' }
   }
 
   const prediction = predictNextPeriod()
 
-  // Período predicho
   if (prediction) {
     const pDate = new Date(dateStr + 'T00:00:00')
     if (pDate >= prediction.nextStart && pDate <= prediction.end) {
@@ -155,7 +261,6 @@ export function getDayInfo(dateStr) {
     }
   }
 
-  // Fases del ciclo
   if (day <= 7) {
     return { phase: 'follicular', day, label: 'Fase folicular' }
   } else if (day <= 14) {
@@ -167,7 +272,6 @@ export function getDayInfo(dateStr) {
   }
 }
 
-// Estadísticas
 export function getStats() {
   const cycles = state.cycles
   if (cycles.length === 0) {
@@ -192,7 +296,7 @@ export function getStats() {
   }
 }
 
-// Síntomas comunes
+/* ===== Catálogos ===== */
 export const SYMPTOMS = [
   { id: 'cramps', icon: '🩹', label: 'Cólicos', color: '#ff6b9d' },
   { id: 'bloating', icon: '🎈', label: 'Hinchazón', color: '#c77dff' },
@@ -204,7 +308,75 @@ export const SYMPTOMS = [
   { id: 'sleep', icon: '🌙', label: 'Insomnio', color: '#6a5acd' }
 ]
 
-// Consejos según fase
+export const MOODS = [
+  { id: 'feliz', icon: '😊', label: 'Feliz' },
+  { id: 'motivada', icon: '💪', label: 'Motivada' },
+  { id: 'relajada', icon: '🧘‍♀️', label: 'Relajada' },
+  { id: 'tranquila', icon: '😌', label: 'Tranquila' },
+  { id: 'cansada', icon: '😴', label: 'Cansada' },
+  { id: 'triste', icon: '😢', label: 'Triste' },
+  { id: 'irritable', icon: '😤', label: 'Irritable' },
+  { id: 'ansiosa', icon: '😰', label: 'Ansiosa' },
+  { id: 'amorosa', icon: '🥰', label: 'Amorosa' },
+  { id: 'neutra', icon: '🙂', label: 'Normal' }
+]
+
+export const SKIN_STATES = [
+  { id: 'normal', icon: '✅', label: 'Normal' },
+  { id: 'grasa', icon: '💦', label: 'Grasa' },
+  { id: 'seca', icon: '🌵', label: 'Seca' },
+  { id: 'mixta', icon: '🌗', label: 'Mixta' },
+  { id: 'acne', icon: '🔴', label: 'Con acné' },
+  { id: 'brillante', icon: '✨', label: 'Radiante' }
+]
+
+export const HAIR_STATES = [
+  { id: 'normal', icon: '✅', label: 'Normal' },
+  { id: 'seco', icon: '🌾', label: 'Seco' },
+  { id: 'graso', icon: '💧', label: 'Graso' },
+  { id: 'caida', icon: '🍂', label: 'Con caída' },
+  { id: 'fuerte', icon: '💪', label: 'Fuerte' }
+]
+
+export const EXERCISE_LEVELS = [
+  { id: 'ninguno', icon: '🛋️', label: 'Descanso' },
+  { id: 'suave', icon: '🚶‍♀️', label: 'Suave' },
+  { id: 'moderado', icon: '🏃‍♀️', label: 'Moderado' },
+  { id: 'intenso', icon: '🏋️‍♀️', label: 'Intenso' }
+]
+
+export const METODOS = [
+  { id: 'condon', icon: '🛡️', label: 'Condón' },
+  { id: 'hormonal', icon: '💊', label: 'Pastillas' },
+  { id: 'iu', icon: '⚓', label: 'DIU' },
+  { id: 'implante', icon: '💉', label: 'Implante' },
+  { id: 'inyeccion', icon: '🌡️', label: 'Inyección' },
+  { id: 'parche', icon: '🩹', label: 'Parche' },
+  { id: 'natural', icon: '🌿', label: 'Natural' },
+  { id: 'ninguno', icon: '👀', label: 'Ninguno' }
+]
+
+export const PETS = [
+  { id: 'gata', icon: '🐱', nombre: 'Mishi', frase: 'Miau, ¿cómo andas?' },
+  { id: 'coneja', icon: '🐰', nombre: 'Nube', frase: 'Saltando de alegría!' },
+  { id: 'zorrita', icon: '🦊', nombre: 'Rúbia', frase: '¡Detective del ciclo al rescate!' },
+  { id: 'panda', icon: '🐼', nombre: 'Mei', frase: 'Zzz... ¡pero para la ester no!' },
+  { id: 'mariposa', icon: '🦋', nombre: 'Alba', frase: '¡Nueva fase, nueva yo!' },
+  { id: 'lunita', icon: '🌙', nombre: 'Luna', frase: 'Tu cuerpo es magia' },
+  { id: 'flor', icon: '🌸', nombre: 'Blossom', frase: 'Eres asombrosa' },
+  { id: 'pollito', icon: '🐣', nombre: 'Pipo', frase: 'Pio pio, ¡a crecer!' }
+]
+
+export const THEMES = [
+  { id: 'luna', emoji: '💜', nombre: 'Luna Morada' },
+  { id: 'rosa', emoji: '🌸', nombre: 'Rosa Crema' },
+  { id: 'oceano', emoji: '🌊', nombre: 'Océano' },
+  { id: 'bosque', emoji: '🌿', nombre: 'Bosque' },
+  { id: 'atardecer', emoji: '🌅', nombre: 'Atardecer' },
+  { id: 'medianoche', emoji: '🌌', nombre: 'Medianoche' }
+]
+
+/* ===== Consejos ===== */
 export function getPhaseTip(phase) {
   const tips = {
     period: [
@@ -221,26 +393,25 @@ export function getPhaseTip(phase) {
     'pre-ovulation': [
       '✨ Tu piel está radiante',
       '💪 Energía en su punto máximo',
-      '📅 Si buscas concebir, ¡próximamente!'
+      '📅 ¡Próximamente tu ventana fértil!'
     ],
-    'luteal': [
+    fertile: [
+      '✨ Tu cuerpo está en su mejor momento',
+      '💫 Energía alta, ¡aprovéchala!'
+    ],
+    ovulation: [
+      '🌙 Día de ovulación aproximada',
+      '💪 Tu temperatura basal sube ligeramente'
+    ],
+    luteal: [
       '🥰 Tu cuerpo necesita más calorías',
       '🛁 Baños tibios para relajarte',
       '📝 Registra cómo te sientes'
     ],
-    'premenstrual': [
+    premenstrual: [
       '🌿 Té de valeriana para calmarte',
       '😴 Duerme 30 min más si puedes',
-      '🧘‍♀️ Respiración profunda ayuda',
-      '💪 Reduce ejercicio intenso si sientes dolor'
-    ],
-    'fertile': [
-      '✨ Tu cuerpo está en su mejor momento',
-      '💫 Energía alta, ¡aprovéchala!'
-    ],
-    'ovulation': [
-      '🌙 Día de ovulación aproximada',
-      '💪 Tu temperatura basal sube ligeramente'
+      '🧘‍♀️ Respiración profunda ayuda'
     ]
   }
   const phaseTips = tips[phase] || tips['follicular']

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import { subscribe, getState, setSettings } from '../store'
-import { FaSun, FaMoon, FaCog, FaShareAlt } from 'react-icons/fa'
+import { subscribe, getState, setSettings, PETS } from '../store'
+import { FaSun, FaMoon, FaShareAlt, FaCog } from 'react-icons/fa'
 
 export default function Header() {
   const [state, setState] = useState(getState())
@@ -11,19 +11,22 @@ export default function Header() {
   }, [])
 
   const toggleTheme = () => {
-    const newTheme = state.settings.theme === 'dark' ? 'light' : 'dark'
+    const current = state.settings.theme
+    const newTheme = (current === 'rosa' || current === 'luna') ? 'medianoche' : 'luna'
     setSettings({ theme: newTheme })
-    document.body.classList.toggle('light-mode', newTheme === 'light')
+    document.documentElement.setAttribute('data-theme', newTheme)
   }
+
+  const pet = PETS.find(p => p.id === state.settings.pet) || PETS[4]
 
   return (
     <header className="header">
       <div className="header-inner">
         <div className="header-brand">
-          <div className="header-logo">🌙</div>
+          <div className="header-logo sticker-float">{pet.icon}</div>
           <div>
             <h1 className="header-title">Luna</h1>
-            <p className="header-subtitle">Tu ciclo, en tus manos</p>
+            <p className="header-subtitle">{pet.frase}</p>
           </div>
         </div>
 
@@ -33,18 +36,11 @@ export default function Header() {
             className="btn-icon"
             title="Cambiar tema"
           >
-            {state.settings.theme === 'dark' ? (
+            {['medianoche', 'oceano', 'bosque'].includes(state.settings.theme) ? (
               <FaSun style={{ color: 'var(--warning)' }} />
             ) : (
               <FaMoon style={{ color: 'var(--accent)' }} />
             )}
-          </button>
-          <button
-            onClick={() => window.location.hash = 'settings'}
-            className="btn-icon"
-            title="Ajustes"
-          >
-            <FaCog />
           </button>
           <button
             className="btn-icon"
@@ -68,6 +64,13 @@ export default function Header() {
             }}
           >
             <FaShareAlt />
+          </button>
+          <button
+            className="btn-icon"
+            title="Ajustes"
+            onClick={() => window.dispatchEvent(new CustomEvent('luna:nav', { detail: 'settings' }))}
+          >
+            <FaCog />
           </button>
         </div>
       </div>

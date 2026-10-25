@@ -1123,3 +1123,414 @@ body.light-mode {
 
 .last\:border-0:last-child { border-bottom: none; }
 .last\:pb-0:last-child { padding-bottom: 0; }
+
+/* ==================================================================== */
+/* =====================   V2 — NUEVOS ESTILOS   ====================== */
+/* ==================================================================== */
+
+/* ---------- Stickers flotantes ---------- */
+@keyframes sticker-float {
+  0%, 100% { transform: translateY(0) rotate(-2deg) scale(1); }
+  50% { transform: translateY(-8px) rotate(3deg) scale(1.08); }
+}
+.sticker-float {
+  display: inline-block;
+  animation: sticker-float 3s ease-in-out infinite;
+  filter: drop-shadow(0 2px 6px rgba(199, 125, 255, 0.4));
+}
+.section-sticker { margin-left: auto; font-size: 1.6rem; }
+.save-sticker {
+  text-align: center;
+  font-size: 2rem;
+  margin-top: 0.4rem;
+}
+.sticker-row { gap: 1.2rem; display: flex; justify-content: center; margin: 0.6rem 0; }
+.sticker-row .sticker-float { font-size: 1.6rem; }
+
+/* ---------- Bienvenida ---------- */
+.welcome-card {
+  background: linear-gradient(135deg, rgba(199, 125, 255, 0.18), rgba(255, 107, 157, 0.1));
+  border: 1px solid rgba(199, 125, 255, 0.25);
+  border-radius: 1.25rem;
+  padding: 0.9rem 1.1rem;
+  display: flex;
+  gap: 0.9rem;
+  align-items: center;
+  backdrop-filter: blur(10px);
+}
+.welcome-sticker {
+  font-size: 2.2rem;
+  width: 3.2rem; height: 3.2rem;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--bg-card);
+  border-radius: 50%;
+  border: 1px solid rgba(199, 125, 255, 0.3);
+  flex-shrink: 0;
+}
+.welcome-saludo { font-weight: 700; font-size: 1.02rem; margin-bottom: 0.15rem; }
+
+/* ---------- Chips ---------- */
+.chip-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+.chips-row {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding-bottom: 0.3rem;
+  scrollbar-width: none;
+}
+.chips-row::-webkit-scrollbar { display: none; }
+.chips-row .chip { flex-shrink: 0; }
+.chip {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.55rem 0.7rem;
+  border-radius: 0.9rem;
+  background: var(--bg-secondary);
+  border: 1.5px solid transparent;
+  color: var(--text-primary);
+  font-size: 0.83rem;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  text-align: left;
+}
+.chip:hover { border-color: rgba(199, 125, 255, 0.35); transform: translateY(-2px); }
+.chip:active { transform: scale(0.97); }
+.chip.chip-active {
+  background: linear-gradient(135deg, rgba(199, 125, 255, 0.28), rgba(199, 125, 255, 0.12));
+  border-color: var(--accent);
+  box-shadow: 0 3px 12px rgba(199, 125, 255, 0.25);
+  font-weight: 600;
+}
+.chip-icon { font-size: 1.15rem; line-height: 1; }
+.chip-inline-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.3rem; }
+.chip-inline {
+  padding: 0.3rem 0;
+  border-radius: 0.5rem;
+  border: 1.5px solid transparent;
+  background: var(--bg-secondary);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.chip-inline.chip-active { border-color: var(--accent); background: rgba(199, 125, 255, 0.2); }
+
+/* ---------- Etiquetas ---------- */
+.tag-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  border: 1.5px solid var(--accent);
+  color: var(--text-primary);
+  font-size: 0.8rem;
+  background: rgba(199, 125, 255, 0.12);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.tag-chip:hover { transform: translateY(-1px); }
+.tag-chip.tag-chip-active {
+  box-shadow: 0 3px 10px rgba(199, 125, 255, 0.3);
+  font-weight: 600;
+}
+.tag-remove {
+  background: none; border: none; color: inherit;
+  cursor: pointer; padding: 0 0 0 0.2rem; font-size: 0.8rem;
+  opacity: 0.7;
+}
+.tag-remove:hover { opacity: 1; color: var(--danger); }
+
+/* ---------- Colores selector ---------- */
+.color-dot {
+  width: 1.8rem; height: 1.8rem;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.color-dot:hover { transform: scale(1.15); }
+.color-dot.color-dot-active {
+  border-color: var(--text-primary);
+  transform: scale(1.2);
+  box-shadow: 0 0 8px rgba(0,0,0,0.3);
+}
+
+/* ---------- Toggle pill ---------- */
+.pill-toggle {
+  padding: 0.4rem 0.95rem;
+  border-radius: 999px;
+  border: 1.5px solid rgba(199, 125, 255, 0.3);
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.25s;
+  min-width: 6rem;
+  text-align: center;
+}
+.pill-toggle:hover { transform: translateY(-1px); }
+.pill-toggle.pill-active {
+  background: linear-gradient(135deg, rgba(199, 125, 255, 0.35), rgba(199, 125, 255, 0.18));
+  border-color: var(--accent);
+  color: var(--text-primary);
+  font-weight: 600;
+  box-shadow: 0 3px 10px rgba(199, 125, 255, 0.25);
+}
+
+/* ---------- Textos ---------- */
+.mini-label {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.4rem;
+  font-weight: 500;
+}
+.hint { font-size: 0.78rem; color: var(--text-secondary); line-height: 1.45; }
+.mono { font-family: ui-monospace, monospace; font-size: 0.72rem; word-break: break-all; }
+
+/* ---------- Slider ---------- */
+.slider {
+  width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-deep));
+  outline: none;
+}
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  border: 3px solid var(--bg-card);
+  box-shadow: 0 0 10px rgba(199, 125, 255, 0.5);
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.slider::-webkit-slider-thumb:hover { transform: scale(1.15); }
+.slider::-moz-range-thumb {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  border: 3px solid var(--bg-card);
+  cursor: pointer;
+}
+
+/* ---------- IMC ---------- */
+.imc-result { text-align: center; padding: 0.4rem 0; }
+.imc-number { font-size: 2.4rem; font-weight: 800; line-height: 1.1; }
+.imc-bar {
+  position: relative;
+  display: flex;
+  height: 10px;
+  border-radius: 999px;
+  overflow: visible;
+  margin: 0.4rem 0.2rem;
+}
+.imc-segment { height: 100%; }
+.imc-segment:first-child { border-radius: 999px 0 0 999px; }
+.imc-segment:last-child { border-radius: 0 999px 999px 0; }
+.imc-marker {
+  position: absolute;
+  top: -6px;
+  width: 4px; height: 22px;
+  background: var(--text-primary);
+  border-radius: 3px;
+  box-shadow: 0 0 6px rgba(0,0,0,0.4);
+  transition: left 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.card-subcard {
+  background: linear-gradient(135deg, rgba(199, 125, 255, 0.12), rgba(199, 125, 255, 0.05));
+  border: 1px solid rgba(199, 125, 255, 0.25);
+  border-radius: 1rem;
+  padding: 1rem;
+  margin-top: 0.8rem;
+}
+.guide-tips {
+  background: rgba(126, 227, 165, 0.1);
+  border-radius: 0.7rem;
+  padding: 0.6rem 0.8rem;
+}
+
+/* ---------- Temperatura ---------- */
+.temp-bar { flex: 1; display: flex; flex-direction: column; align-items: center; }
+.temp-bar-fill {
+  width: 100%;
+  max-width: 2rem;
+  border-radius: 6px 6px 3px 3px;
+  background: linear-gradient(180deg, var(--accent), var(--accent-deep));
+  min-height: 8px;
+  transition: height 0.6s ease;
+}
+
+/* ---------- Autoexamen ---------- */
+.steps-vertical { display: flex; flex-direction: column; gap: 0.7rem; }
+.step-item {
+  display: flex;
+  gap: 0.7rem;
+  align-items: flex-start;
+  background: var(--bg-secondary);
+  padding: 0.65rem 0.8rem;
+  border-radius: 0.9rem;
+  border: 1px solid rgba(199, 125, 255, 0.08);
+}
+.step-num {
+  width: 1.7rem; height: 1.7rem;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent-deep));
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+.disclaimer { border-color: rgba(255, 217, 61, 0.3); background: linear-gradient(135deg, rgba(255, 217, 61, 0.08), transparent); }
+
+/* ---------- Test ovulación ---------- */
+.test-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0.8rem;
+  border-radius: 0.8rem;
+}
+.test-box-positivo {
+  background: rgba(255, 107, 157, 0.12);
+  border: 1px solid rgba(255, 107, 157, 0.3);
+}
+.test-box-negativo {
+  background: var(--bg-secondary);
+  border: 1px solid rgba(199, 125, 255, 0.1);
+}
+
+/* ---------- View switch animación ---------- */
+.view-switch { animation: view-in 0.35s cubic-bezier(0.4, 0, 0.2, 1); }
+@keyframes view-in {
+  from { opacity: 0; transform: translateY(12px) scale(0.99); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ---------- Loading v2 ---------- */
+.loading-card { padding: 2rem; }
+.loading-title {
+  font-size: 1.6rem;
+  font-weight: 800;
+  margin: 0.4rem 0;
+  background: linear-gradient(135deg, #c77dff, #ff6b9d);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ==================================================================== */
+/* =======================   TEMAS VISUALES   ========================= */
+/* ==================================================================== */
+
+/* 🌸 Rosa Crema (claro y suave) */
+:root[data-theme='rosa'] {
+  --bg-primary: #fff5f8;
+  --bg-secondary: #ffe9f1;
+  --bg-card: #ffffff;
+  --accent: #ff7eb3;
+  --accent-soft: #ffb8d9;
+  --accent-deep: #e668a3;
+  --text-primary: #4a1d3f;
+  --text-secondary: #94577e;
+  --text-muted: #b98ca6;
+  --danger: #e668a3;
+  --success: #68c78a;
+  --warning: #ffb347;
+}
+:root[data-theme='rosa'] body,
+body[data-theme='rosa'] { background: linear-gradient(135deg, #fff5f8, #ffeaf3 55%, #fff5f8); }
+:root[data-theme='rosa'] .header, :root[data-theme='rosa'] .bottom-nav { background: rgba(255, 245, 248, 0.85); }
+:root[data-theme='rosa'] .card { background: linear-gradient(135deg, #ffffff, #fff7fb); box-shadow: 0 4px 18px rgba(230, 104, 163, 0.08); }
+
+/* 🌊 Océano */
+:root[data-theme='oceano'] {
+  --bg-primary: #06223b;
+  --bg-secondary: #0d3455;
+  --bg-card: #124065;
+  --accent: #4dd0e1;
+  --accent-soft: #9be6ef;
+  --accent-deep: #2ea8c9;
+  --text-primary: #e8fbff;
+  --text-secondary: #a3cfe0;
+  --text-muted: #7ab0c4;
+  --danger: #ff8a9d;
+  --success: #5fd4a2;
+  --warning: #ffd93d;
+}
+:root[data-theme='oceano'] body,
+body[data-theme='oceano'] { background: linear-gradient(135deg, #06223b, #0d3455 55%, #06223b); }
+
+/* 🌿 Bosque */
+:root[data-theme='bosque'] {
+  --bg-primary: #0e2318;
+  --bg-secondary: #163a26;
+  --bg-card: #1d4a31;
+  --accent: #7ee3a5;
+  --accent-soft: #b5f0cc;
+  --accent-deep: #4bb87c;
+  --text-primary: #eafff3;
+  --text-secondary: #a8d9bd;
+  --text-muted: #7fb8a0;
+  --danger: #ff8a9d;
+  --success: #7ee3a5;
+  --warning: #ffd93d;
+}
+:root[data-theme='bosque'] body,
+body[data-theme='bosque'] { background: linear-gradient(135deg, #0e2318, #163a26 55%, #0e2318); }
+
+/* 🌅 Atardecer */
+:root[data-theme='atardecer'] {
+  --bg-primary: #2b0f1e;
+  --bg-secondary: #481832;
+  --bg-card: #5e2140;
+  --accent: #ff9d5c;
+  --accent-soft: #ffc9a3;
+  --accent-deep: #ff7e5f;
+  --text-primary: #fff3ec;
+  --text-secondary: #e8b9a6;
+  --text-muted: #c48e78;
+  --danger: #ff6b9d;
+  --success: #8fd98f;
+  --warning: #ffd93d;
+}
+:root[data-theme='atardecer'] body,
+body[data-theme='atardecer'] { background: linear-gradient(135deg, #2b0f1e, #481832 55%, #2b0f1e); }
+
+/* 🌌 Medianoche */
+:root[data-theme='medianoche'] {
+  --bg-primary: #0a0e27;
+  --bg-secondary: #131a3d;
+  --bg-card: #1a234e;
+  --accent: #9fa8ff;
+  --accent-soft: #c8ceff;
+  --accent-deep: #7a86e8;
+  --text-primary: #eef0ff;
+  --text-secondary: #b3bbdd;
+  --text-muted: #8b93bd;
+  --danger: #ff7a9d;
+  --success: #8fd4ff;
+  --warning: #ffd93d;
+}
+:root[data-theme='medianoche'] body,
+body[data-theme='medianoche'] { background: linear-gradient(135deg, #0a0e27, #131a3d 55%, #0a0e27); }
+
+/* Tarjetas/grand sub para todos los temas */
+:root[data-theme='rosa'] .card-title,
+:root[data-theme='rosa'] .text-accent { color: var(--accent-deep) !important; }
+:root[data-theme='rosa'] .header-title {
+  background: linear-gradient(135deg, #e668a3, #4a1d3f);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.light-mode body, body.light-mode { /* legacy */ }
