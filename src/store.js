@@ -6,7 +6,7 @@ const defaultSettings = {
   cycleLength: 28,
   periodLength: 5,
   theme: 'luna',
-  pet: '🐱',
+  pet: 'lunita',
   notifications: true,
   lastPeriodStart: null,
   name: '',
