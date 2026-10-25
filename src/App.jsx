@@ -6,7 +6,7 @@ import Prediction from './components/Prediction'
 import Symptoms from './components/Symptoms'
 import Settings from './components/Settings'
 import { FaCalendarAlt, FaChartLine, FaHeart, FaCog } from 'react-icons/fa'
-import { format, differenceInDays } from 'date-fns'
+import { format, differenceInDays, startOfDay } from 'date-fns'
 import { es } from 'date-fns/locale'
 
 function App() {
@@ -29,7 +29,7 @@ function App() {
         const prediction = predictNextPeriod()
         if (prediction) {
           const now = new Date()
-          const daysUntil = differenceInDays(prediction.nextStart, now)
+          const daysUntil = differenceInDays(startOfDay(prediction.nextStart), startOfDay(now))
           if (daysUntil === 2) {
             new Notification('Luna 🌙', {
               body: `Tu período comienza en 2 días (${format(prediction.nextStart, "dd/MM", { locale: es })})`,

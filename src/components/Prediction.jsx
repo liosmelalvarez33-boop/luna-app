@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { format, differenceInDays } from 'date-fns'
+import { format, differenceInDays, startOfDay } from 'date-fns'
 import { es } from 'date-fns/locale'
 import { predictNextPeriod, getState, getPhaseTip, subscribe } from '../store'
 import { FaChartLine, FaHeart, FaThermometerHalf } from 'react-icons/fa'
@@ -34,10 +34,10 @@ export default function Prediction() {
     )
   }
 
-  const today = new Date()
-  const daysUntilPeriod = differenceInDays(prediction.nextStart, today)
-  const daysUntilFertile = differenceInDays(prediction.fertileStart, today)
-  const daysUntilOvulation = differenceInDays(prediction.ovulation, today)
+  const today = startOfDay(new Date())
+  const daysUntilPeriod = differenceInDays(startOfDay(prediction.nextStart), today)
+  const daysUntilFertile = differenceInDays(startOfDay(prediction.fertileStart), today)
+  const daysUntilOvulation = differenceInDays(startOfDay(prediction.ovulation), today)
 
   const cyclePhases = [
     { day: 1, end: state.settings.periodLength, label: 'Período', icon: '🩸', color: '#ff6b9d' },
