@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { loadData, getState, PETS } from './store'
+import { loadData, getState, subscribe, PETS } from './store'
 import Header from './components/Header'
 import AmbientOverlay from './components/AmbientOverlay'
 import Calendar from './components/Calendar'
@@ -34,7 +34,14 @@ function App() {
     // Escuchar navegación desde Header (botón Ajustes)
     const onNav = (e) => setActiveView(e.detail)
     window.addEventListener('luna:nav', onNav)
-    return () => window.removeEventListener('luna:nav', onNav)
+
+    // Reaccionar a cambios del store (temas, mascotas...) en toda la app
+    const unsub = subscribe(setState)
+
+    return () => {
+      window.removeEventListener('luna:nav', onNav)
+      unsub()
+    }
   }, [])
 
   // Rotar tips
