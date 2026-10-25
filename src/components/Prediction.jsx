@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { format, differenceInDays } from 'date-fns'
 import { es } from 'date-fns/locale'
-import { predictNextPeriod, getState, getPhaseTip } from '../store'
+import { predictNextPeriod, getState, getPhaseTip, subscribe } from '../store'
 import { FaChartLine, FaHeart, FaThermometerHalf } from 'react-icons/fa'
 
 export default function Prediction() {
