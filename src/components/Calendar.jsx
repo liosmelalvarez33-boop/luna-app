@@ -170,15 +170,20 @@ export default function Calendar() {
           </div>
         )}
 
-        {prediction && (
-          <div className="prediction-info">
-            <p className="text-xs text-text-secondary mb-1">Próximo ciclo:</p>
-            <p className="text-sm mb-1">
-              📅 Comienza: {format(prediction.nextStart, "dd/MM/yyyy", { locale: es })}
-            </p>
+        <div className="prediction-info">
+          {prediction && (
+            <>
+              <p className="text-xs text-text-secondary mb-1">Próximo ciclo:</p>
+              <p className="text-sm mb-1">
+                📅 Comienza: {format(prediction.nextStart, "dd/MM/yyyy", { locale: es })}
+              </p>
+            </>
+          )}
+          {prediction && (
             <p className="text-sm mb-2">
-              ✨ Ventana fértil: {format(prediction.fertileStart, "dd/MM", { locale: es })} - {format(prediction.fertileEnd, "dd/MM", { locale: es })}
-            </p>
+                ✨ Ventana fértil: {format(prediction.fertileStart, "dd/MM", { locale: es })} - {format(prediction.fertileEnd, "dd/MM", { locale: es })}
+              </p>
+            )}
             <button
               onClick={() => {
                 setLastPeriodStart(format(selectedDate, 'yyyy-MM-dd'))
@@ -195,7 +200,6 @@ export default function Calendar() {
               </p>
             )}
           </div>
-        )}
       </div>
     </div>
   )
