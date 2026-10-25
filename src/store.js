@@ -43,6 +43,10 @@ export async function loadData() {
         profile: { ...state.profile, ...(data.profile || {}) },
         sexual: { ...state.sexual, ...(data.sexual || {}) }
       }
+      // Validar mascota guardada (valores antiguos eran emoji suelto)
+      if (!PETS.some(p => p.id === state.settings.pet)) {
+        state.settings.pet = defaultSettings.pet
+      }
     }
   } catch (e) {
     console.warn('No se pudieron cargar los datos', e)
@@ -196,6 +200,10 @@ export function importBackup(json) {
       sexual: { ...state.sexual, ...(parsed.sexual || {}) }
     }
     if (state.settings.theme) document.documentElement.setAttribute('data-theme', state.settings.theme)
+    // Validar mascota importada
+    if (!PETS.some(p => p.id === state.settings.pet)) {
+      state.settings.pet = defaultSettings.pet
+    }
     save(); notify()
     return true
   } catch (e) {
