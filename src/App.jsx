@@ -87,20 +87,6 @@ function App() {
       <Header />
 
       <div className="app-content">
-        {/* Navigation tabs */}
-        <div className="nav-tabs">
-          {navItems.map(item => (
-            <button
-              key={item.id}
-              onClick={() => setActiveView(item.id)}
-              className={`nav-tab ${activeView === item.id ? 'nav-tab-active' : ''}`}
-            >
-              <span className="block mb-1">{item.icon}</span>
-              {item.label}
-            </button>
-          ))}
-        </div>
-
         {/* Saludo + tip */}
         <div className="px-4 mb-4">
           <div className="welcome-card slide-up">
