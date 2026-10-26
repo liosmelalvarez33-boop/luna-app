@@ -14,9 +14,9 @@ const SECTIONS = [
   { id: 'ovul', icon: <FaVial />, label: 'Test ovulación' }
 ]
 
-export default function Salud() {
+export default function Salud({ seccionInicial }) {
   const [state, setState] = useState(getState())
-  const [sec, setSec] = useState('imc')
+  const [sec, setSec] = useState(seccionInicial || 'imc')
 
   useEffect(() => {
     const unsub = subscribe(setState)

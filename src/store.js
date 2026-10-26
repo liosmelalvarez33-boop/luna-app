@@ -87,6 +87,35 @@ export function setLastPeriodStart(dateStr) {
   save(); notify()
 }
 
+/* Fin del período: ajusta periodLength根据 fecha de fin */
+export function setPeriodEnd(dateStr) {
+  const { lastPeriodStart, periodLength } = state.settings
+  if (!lastPeriodStart) return false
+  const start = new Date(lastPeriodStart + 'T00:00:00')
+  const end = new Date(dateStr + 'T00:00:00')
+  const dias = Math.floor((end - start) / 86400000) + 1
+  if (dias > 0 && dias <= 20) {
+    state.settings = { ...state.settings, periodLength: dias }
+    save(); notify()
+    return true
+  }
+  return false
+}
+
+/* Probabilidad de embarazo según la fase (tipo referencia) */
+export function probabilidadEmbarazo(phase) {
+  const map = {
+    period: { nivel: 'Baja', texto: 'Período menstruando' },
+    follicular: { nivel: 'Baja', texto: 'Fase folicular temprana' },
+    'pre-ovulation': { nivel: 'Media baja', texto: 'Pre-ovulación, fertilidad subiendo' },
+    fertile: { nivel: 'Alta', texto: 'Ventana fértil — máxima posibilidad' },
+    ovulation: { nivel: 'Máxima', texto: 'Día de ovulación' },
+    luteal: { nivel: 'Baja', texto: 'Post-ovulación (fase lútea)' },
+    premenstrual: { nivel: 'Muy baja', texto: 'Fase premenstrual' }
+  }
+  return map[phase] || { nivel: '—', texto: '' }
+}
+
 export function addCycle(cycle) {
   state.cycles.push({ ...cycle, id: Date.now() })
   save(); notify()
