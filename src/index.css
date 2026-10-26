@@ -2940,3 +2940,13 @@ body {
 
 /* Texto análisis sin ciclos registrados */
 .ana-sub { white-space: normal; }
+
+/* Burbuja del apuntador debajo de la barra (no la tapa) */
+.cyclebar-bubble { top: 36px; }
+.cyclebar { padding-bottom: 2.6rem; }
+.cyclebar--compact { padding-bottom: 0.4rem; }
+.cyclebar--compact .cyclebar-track { margin-bottom: 0.5rem; }
+
+/*.Safe-area inferior en la hoja de registro (iPhone home bar) */
+.registro-sheet { padding-bottom: calc(1.8rem + env(safe-area-inset-bottom, 0px)); }
+.registro-sheet { scroll-padding-bottom: 2rem; }
