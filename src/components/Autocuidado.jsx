@@ -7,9 +7,9 @@ import Salud from './Salud'
  * autoexamen, test de ovulación).
  */
 const PAISAJES = [
-  { id: 'lluvia', nombre: 'Lluvia suave', desc: 'Para dormir profundo', bg: 'linear-gradient(140deg, #5b8fe8, #2c4f9e)', icono: '🌧️', freq: 1400, lfo: 0.4, prof: 0.8 },
-  { id: 'bosque', nombre: 'Bosque al amanecer', desc: 'Viento entre hojas', bg: 'linear-gradient(140deg, #6fce95, #2f7a52)', icono: '🌲', freq: 600, lfo: 0.15, prof: 0.5 },
-  { id: 'mar', nombre: 'Olas del mar', desc: 'Respira con las olas', bg: 'linear-gradient(140deg, #58c4c9, #1f6a78)', icono: '🌊', freq: 800, lfo: 0.1, prof: 0.95 }
+  { id: 'lluvia', nombre: 'Lluvia suave', desc: 'Sueño profundo', bg: 'linear-gradient(140deg, #5b8fe8, #2c4f9e)', icono: '🌧️', freq: 1400, lfo: 0.4, prof: 0.8 },
+  { id: 'bosque', nombre: 'Bosque templado', desc: 'Viento en hojas', bg: 'linear-gradient(140deg, #6fce95, #2f7a52)', icono: '🌲', freq: 600, lfo: 0.15, prof: 0.5 },
+  { id: 'mar', nombre: 'Olas del mar', desc: 'Respira lento', bg: 'linear-gradient(140deg, #58c4c9, #1f6a78)', icono: '🌊', freq: 800, lfo: 0.1, prof: 0.95 }
 ]
 
 /* Generador de paisaje: ruido filtrado con respiración lenta */

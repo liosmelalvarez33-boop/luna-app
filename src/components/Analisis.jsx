@@ -29,7 +29,7 @@ export default function Analisis({ onIrSalud }) {
       {/* ---- Análisis del ciclo ---- */}
       <div className="card analisis-card">
         <h3 className="ana-title">Análisis del ciclo</h3>
-        <p className="ana-sub">Basado en {st.count || 'la configuración'} {st.count === 1 ? 'ciclo registrado' : 'ciclos registrados'}</p>
+        <p className="ana-sub">Basado en {st.count ? `${st.count} ${st.count === 1 ? 'ciclo registrado' : 'ciclos registrados'}` : 'tu configuración actual'}</p>
         <div className="ana-tarjetas">
           <div className="ana-mini" style={{ background: 'linear-gradient(135deg, #ffd9e8, #ffb8d9)' }}>
             <span className="ana-icono">💧</span>

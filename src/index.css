@@ -2925,3 +2925,18 @@ body {
   transition: transform 0.2s cubic-bezier(0.2, 1.4, 0.4, 1);
 }
 .nav-fab:active { transform: translateY(-0.55rem) scale(0.88); }
+
+/* ---- Ajustes de proporciones (revisión cortes iPhone) ---- */
+.sonido-card { min-height: 7.4rem; padding: 0.95rem; }
+.sonido-nombre { font-size: 0.95rem; padding-right: 0.4rem; }
+.sonido-desc { font-size: 0.74rem; padding-right: 2.5rem; }
+
+/* Burbuja del ciclo: sin corte en bordes (clamp via inline) y respaldo */
+.cyclebar-bubble { transform: translateX(-88%); }
+.cyclebar--compact .cyclebar-track { height: 9px; }
+
+/* Fase-cards: que la última asome más (peek) y bordes limpios */
+.hoy-fases { grid-auto-columns: 26%; padding-left: 0.35rem; padding-right: 0.35rem; }
+
+/* Texto análisis sin ciclos registrados */
+.ana-sub { white-space: normal; }

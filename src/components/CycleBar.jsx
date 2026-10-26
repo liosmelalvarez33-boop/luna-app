@@ -33,6 +33,10 @@ export default function CycleBar({ cycleLength = 28, periodLength = 5, dia = 0, 
 
   const ovulCenter = ovulDay / total
 
+  // Sujetar la burbuja "Día N" para que no se corte en los bordes
+  const pctDia = total > 0 ? (dia / total) * 100 : 0
+  const shift = pctDia < 12 ? 'translateX(-6%)' : pctDia > 88 ? 'translateX(-94%)' : 'translateX(-88%)'
+
   return (
     <div className={`cyclebar ${compact ? 'cyclebar--compact' : ''}`}>
       <div className="cyclebar-track">
@@ -56,7 +60,7 @@ export default function CycleBar({ cycleLength = 28, periodLength = 5, dia = 0, 
         {dia > 0 && (
           <div className="cyclebar-marker" style={{ left: `calc(${(dia / total) * 100}% )` }}>
             <span className="cyclebar-pin" />
-            <span className="cyclebar-bubble">{label || `Día ${dia}`}</span>
+            <span className="cyclebar-bubble" style={{ transform: shift }}>{label || `Día ${dia}`}</span>
           </div>
         )}
       </div>
